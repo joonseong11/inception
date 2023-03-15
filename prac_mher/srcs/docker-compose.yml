@@ -1,0 +1,65 @@
+networks:
+  inception_network:
+    name: inception_network
+    driver: bridge
+
+volumes:
+  wp_volume2:
+     driver: local
+     driver_opts:
+       type: volume
+       device: ./requirements/tools
+      #  device: /Users/jujeon/Documents/dev/circle5/prac_mher/srcs/requirements/tools
+       o: bind
+     name: wp_volume2
+  # nginx:
+  # wordpress:
+# version: "3.9"
+
+services:
+  nginx:
+    build: requirements/nginx
+    container_name: nginx_mher
+    ports:
+      # - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      # - ./requirements/tools/php:/var/www/html
+      - wp_volume2:/var/www/html/wordpress
+    depends_on:
+      - wordpress
+    networks:
+      - inception_network
+
+  wordpress:
+    build: requirements/wordpress
+    container_name: wordpress_mher
+    restart: always
+    volumes:
+      # - ./requirements/tools/php:/var/www/html
+      - wp_volume2:/var/www/html/wordpress
+    expose:
+      - "9000"
+    networks:
+      - inception_network
+    depends_on:
+      - mariadb
+    
+  mariadb:
+    build: ./requirements/mariadb/
+    container_name: mariadb
+    restart: always
+    expose:
+      - "3306"
+    # env_file:
+    #   - .env
+    networks:
+      - inception_network
+    environment:
+      MYSQL_ROOT: root
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: jujeon
+      MYSQL_PASSWORD: 1234
+
