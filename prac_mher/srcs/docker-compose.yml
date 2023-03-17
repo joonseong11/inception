@@ -1,20 +1,3 @@
-networks:
-  inception_network:
-    name: inception_network
-    driver: bridge
-
-volumes:
-  wp_volume2:
-     driver: local
-     driver_opts:
-       type: volume
-       device: ./requirements/tools
-      #  device: /Users/jujeon/Documents/dev/circle5/prac_mher/srcs/requirements/tools
-       o: bind
-     name: wp_volume2
-  # nginx:
-  # wordpress:
-# version: "3.9"
 
 services:
   nginx:
@@ -26,9 +9,23 @@ services:
     restart: always
     volumes:
       # - ./requirements/tools/php:/var/www/html
-      - wp_volume2:/var/www/html/wordpress
+      - wp_volume:/var/www/html/wordpress
     depends_on:
       - wordpress
+    networks:
+      - inception_network
+
+  mariadb:
+    init: true
+    build: ./requirements/mariadb/
+    container_name: mariadb
+    restart: always
+    expose:
+      - "3306"
+    env_file:
+      - .env
+    volumes:
+      - db_volume:/var/lib/mysql/
     networks:
       - inception_network
 
@@ -38,28 +35,36 @@ services:
     restart: always
     volumes:
       # - ./requirements/tools/php:/var/www/html
-      - wp_volume2:/var/www/html/wordpress
+      - wp_volume:/var/www/html/wordpress
     expose:
       - "9000"
     networks:
       - inception_network
+    env_file:
+      - .env
     depends_on:
-      - mariadb
+      # - mariadb
+      mariadb:
+        condition: service_healthy
     
-  mariadb:
-    build: ./requirements/mariadb/
-    container_name: mariadb
-    restart: always
-    expose:
-      - "3306"
-    # env_file:
-    #   - .env
-    networks:
-      - inception_network
-    environment:
-      MYSQL_ROOT: root
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: mariadb
-      MYSQL_USER: jujeon
-      MYSQL_PASSWORD: 1234
 
+volumes:
+  wp_volume:
+     name: wp_volume
+     driver: local
+     driver_opts:
+       type: none
+       device: ./requirements/tools/wordpress
+       o: bind
+  db_volume:
+     name: db_volume
+     driver: local
+     driver_opts:
+       type: none
+       device: ./requirements/tools/mariadb
+       o: bind
+
+networks:
+  inception_network:
+    name: inception_network
+    driver: bridge
