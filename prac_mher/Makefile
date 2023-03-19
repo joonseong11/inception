@@ -1,6 +1,7 @@
 
 NAME = Inception
 
+VOLUME_PATH :=  /home/jujeon/data
 RED			=	\033[0;31m
 GRN			= 	\033[0;32m
 YLW			=	\033[0;33m
@@ -31,6 +32,8 @@ clean: down
 fclean: clean
 	@rm -rf ./srcs/requirements/tools/mariadb/*
 	@rm -rf ./srcs/requirements/tools/wordpress/*
+#	@rm -rf $(VOLUME_PATH)/mariadb/*
+#	@rm -rf $(VOLUME_PATH)/wordpress/*
 	@echo "$(RED)>>> remove your volume files"
 .PHONY: fclean
 # remove files from the volumes (you need to fill it)
