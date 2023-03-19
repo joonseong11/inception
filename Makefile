@@ -24,16 +24,16 @@ down:
 	@echo "$(YLW)>>> docker compose down"
 .PHONY: down
 
-clean: down
-	@docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker image prune -a; docker volume rm $(docker volume ls -q); docker system prune -af
+clean: 
+	@docker compose -f ./srcs/docker-compose.yml down --rmi all --volumes
 	@echo "$(RED)>>> docker stop and remove volume, networks and caches"
 .PHONY: stop
 
 fclean: clean
-	@rm -rf ./srcs/requirements/tools/mariadb/*
-	@rm -rf ./srcs/requirements/tools/wordpress/*
-#	@rm -rf $(VOLUME_PATH)/mariadb/*
-#	@rm -rf $(VOLUME_PATH)/wordpress/*
+#	@rm -rf ./srcs/requirements/tools/mariadb/*
+#	@rm -rf ./srcs/requirements/tools/wordpress/*
+	@rm -rf $(VOLUME_PATH)/mariadb/*
+	@rm -rf $(VOLUME_PATH)/wordpress/*
 	@echo "$(RED)>>> remove your volume files"
 .PHONY: fclean
 # remove files from the volumes (you need to fill it)
