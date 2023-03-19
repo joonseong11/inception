@@ -17,6 +17,7 @@ all: fclean up
 up:
 	@mkdir -p $(VOLUME_PATH)/wordpress
 	@mkdir -p $(VOLUME_PATH)/mariadb
+	@echo "127.0.0.1	jujeon.42.fr" > /etc/hosts
 	@docker compose -f ./srcs/docker-compose.yml up --build -d;
 	@echo "$(GRN)>>> docker compose up"
 .PHONY: up
@@ -34,8 +35,8 @@ clean:
 fclean: clean
 #	@rm -rf ./srcs/requirements/tools/mariadb/*
 #	@rm -rf ./srcs/requirements/tools/wordpress/*
-	@rm -rf $(VOLUME_PATH)/mariadb
-	@rm -rf $(VOLUME_PATH)/wordpress
+	@sudo rm -rf $(VOLUME_PATH)/mariadb
+	@sudo rm -rf $(VOLUME_PATH)/wordpress
 	@echo "$(RED)>>> remove your volume files"
 .PHONY: fclean
 # remove files from the volumes (you need to fill it)
