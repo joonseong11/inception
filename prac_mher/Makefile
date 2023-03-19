@@ -1,16 +1,27 @@
-NAME = inception
 
+NAME = Inception
 
-# $(NAME) :
-# 	@sudo mkdir -p $(VOLUME_PATH)/mariadb/
+all: fclean up
+# setup
 
-up	:
-	@sudo docker-compose -f ./srcs/docker-compose.yml up --build -d
+# setup:
+# 	cd ./srcs/requirements/tools && sudo bash pre_work.sh
 
-down	:
-	@sudo docker-compose -f ./srcs/docker-compose.yml down
+up:
+	docker compose -f ./srcs/docker-compose.yml up;
+.PHONY: up
 
-clean	:
-	@sudo docker-compose -f ./srcs/docker-compose.yml down --rmi all --volumes
+down:
+	docker compose -f ./srcs/docker-compose.yml down;
+.PHONY: down
 
-.PHONY	: all down clean
+clean:
+	docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker image prune -a; docker volume rm $(docker volume ls -q); docker system prune -af
+.PHONY: stop
+
+fclean: clean
+	rm -rf ./srcs/requirements/tools/mariadb/*
+	rm -rf ./srcs/requirements/tools/wordpress/*
+.PHONY: fclean
+# remove files from the volumes (you need to fill it)
+# you need to change directory!!! to /home/data/

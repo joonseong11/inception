@@ -15,5 +15,5 @@ ENTRYPOINT ["sh", "/tmp/mariadb_setup.sh"]
 
 HEALTHCHECK --interval=5s --timeout=5s --start-period=1s --retries=5 \
 CMD [ "sh", "/tmp/healthcheck.sh" ]
-
-EXPOSE 3306
+# expose 필요없다 로컬이랑 연결하는 포트다. 다만, 사용자에게 정보를 알려주는 용도로도 남겨놓기도함.
+EXPOSE 3306 
