@@ -17,7 +17,9 @@ all: fclean up
 up:
 	@mkdir -p $(VOLUME_PATH)/wordpress
 	@mkdir -p $(VOLUME_PATH)/mariadb
+	@chmod 647 /etc/hosts
 	@echo "127.0.0.1	jujeon.42.fr" > /etc/hosts
+	@chmod 644 /etc/hosts
 	@docker compose -f ./srcs/docker-compose.yml up --build -d;
 	@echo "$(GRN)>>> docker compose up"
 .PHONY: up
