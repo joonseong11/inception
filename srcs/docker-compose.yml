@@ -2,7 +2,8 @@
 services:
   nginx:
     build: requirements/nginx
-    container_name: nginx_mher
+    container_name: nginx
+    image: nginx
     ports:
       # - 80:80
       - 443:443
@@ -19,6 +20,7 @@ services:
     init: true
     build: ./requirements/mariadb/
     container_name: mariadb
+    image: mariadb
     restart: always
     expose:
       - "3306"
@@ -31,7 +33,8 @@ services:
 
   wordpress:
     build: requirements/wordpress
-    container_name: wordpress_mher
+    container_name: wordpress
+    image: wordpress
     restart: always
     volumes:
       # - ./requirements/tools/php:/var/www/html
