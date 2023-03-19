@@ -24,11 +24,9 @@
 define( 'DB_NAME', getenv('WORDPRESS_DB_HOST') );
 
 /** Database username */
-// jujeon
 define( 'DB_USER', getenv('WORDPRESS_DB_USER') );
 
 /** Database password */
-// 1234
 define( 'DB_PASSWORD', getenv('WORDPRESS_DB_PASSWORD') );
 
 /** Database hostname */
