@@ -8,9 +8,9 @@ Inception is a 42 project focused on learning Docker and Docker Compose. The obj
 The project is structured as follows:
 
 - `srcs/`: Contains the Docker configurations and project files.
-  -  `nginx/`: Configuration files for the Nginx container.
-  -  `wordpress/`: Files related to the WordPress installation.
-  -  `mariadb/`: MariaDB configuration and initialization files.
+  -  `requirements/nginx/`: Configuration files for the Nginx container.
+  -  `requirements/wordpress/`: Files related to the WordPress installation.
+  -  `requirements/mariadb/`: MariaDB configuration and initialization files.
   -  `.env`: Environment variables file.
 
 ## How to run?
